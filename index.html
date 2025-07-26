@@ -21,17 +21,49 @@
                 <a href="gallery.html" class="nav-btn">🎨 Galeri Foto</a>
                 <a href="messages.html" class="nav-btn">💌 Pesan Spesial</a>
                 <a href="wish.html" class="nav-btn">✨ Permohonan</a>
-                <a href="Halaman_kata2.html" class="nav-btn">❤️ Kata Kata Terakhir, Jadi buka diakhir aja</a>
+                <a href="Halaman_kata2.html" class="nav-btn">❤️ Kata Kata Terakhir</a>
             </div>
         </main>
 
         <footer>
             <p>Dibuat dengan ❤️ untuk Elok</p>
+            <button id="musicToggle" class="music-toggle">🔇 Matikan Musik</button>
         </footer>
     </div>
 
     <div class="floating-hearts"></div>
 
     <script src="js/script.js"></script>
+    <script>
+        // Inisialisasi musik saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cek status musik dari localStorage
+            const musicEnabled = localStorage.getItem('musicEnabled') !== 'false';
+            
+            if (musicEnabled) {
+                playBirthdaySong();
+                document.getElementById('musicToggle').textContent = '🔇 Matikan Musik';
+            } else {
+                document.getElementById('musicToggle').textContent = '🔊 Nyalakan Musik';
+            }
+
+            // Tombol toggle musik
+            document.getElementById('musicToggle').addEventListener('click', function() {
+                const musicEnabled = localStorage.getItem('musicEnabled') !== 'false';
+                localStorage.setItem('musicEnabled', !musicEnabled);
+                
+                if (!musicEnabled) {
+                    playBirthdaySong();
+                    this.textContent = '🔇 Matikan Musik';
+                } else {
+                    // Fungsi stopMusic harus didefinisikan di script.js
+                    if (typeof stopMusic === 'function') {
+                        stopMusic();
+                    }
+                    this.textContent = '🔊 Nyalakan Musik';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
