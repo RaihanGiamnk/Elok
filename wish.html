@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirim Ucapan untuk Elok</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffe6ee;
+            text-align: center;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ff6b6b;
+        }
+        .whatsapp-btn {
+            display: inline-block;
+            background: #25D366;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin: 20px 0;
+            transition: all 0.3s;
+        }
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: scale(1.05);
+        }
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            color: #ff6b6b;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<div class="container">
+    <h1>Kirim Ucapan untuk Elok</h1>
+    
+    <form onsubmit="redirectToWhatsApp(event)">
+        <input type="text" id="nama" placeholder="Nama Anda" required style="padding: 10px; width: 80%; margin: 10px;">
+        <textarea id="pesan" placeholder="Tulis ucapanmu..." required style="padding: 10px; width: 80%; height: 100px; margin: 10px;"></textarea>
+        <button type="submit" style="background: #25D366; color: white; border: none; padding: 12px 20px; border-radius: 5px;">
+            Kirim via WhatsApp
+        </button>
+    </form>
+    
+    <a href="index.html" style="display: inline-block; margin-top: 20px; color: #ff6b6b;">Kembali</a>
+</div>
+
+<script>
+function redirectToWhatsApp(e) {
+    e.preventDefault();
+    const nama = document.getElementById('nama').value;
+    const pesan = document.getElementById('pesan').value;
+    const url = `https://wa.me/6285229691284?text=Hai%20Afgan,%20saya%20${encodeURIComponent(nama)}%20ingin%20mengucapkan permohonan:%0A%0A${encodeURIComponent(pesan)}`;
+    window.open(url, '_blank');
+}
+</script>

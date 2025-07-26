@@ -1,0 +1,352 @@
+/* Base Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #ffcce6 0%, #f8e8ee 100%);
+    color: #333;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    color: #ff6b6b;
+    font-size: 2.8rem;
+    margin-bottom: 10px;
+}
+
+.name {
+    font-size: 4rem;
+    color: #ff4757;
+    font-weight: bold;
+    margin: 20px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: pulse 2s infinite;
+}
+
+.subtitle {
+    font-size: 1.3rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Navigation */
+.navigation {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 30px 0;
+}
+
+.nav-btn, .back-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-btn:hover, .back-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(45deg, #ff4757, #ff6b81);
+}
+
+/* Home Page */
+.home-page .cake {
+    font-size: 8rem;
+    text-align: center;
+    margin: 30px 0;
+    animation: bounce 2s infinite;
+}
+
+.greeting {
+    font-size: 1.5rem;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+}
+
+/* Gallery Page */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.photo-item {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.photo-item:hover {
+    transform: translateY(-5px);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.photo-caption {
+    padding: 15px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+/* Messages Page */
+.message-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.message-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border-left: 5px solid #ff6b6b;
+}
+
+.message-content {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.message-author {
+    text-align: right;
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+/* Wish Page */
+.wish-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.wish-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.wish-form h2 {
+    color: #ff6b6b;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.wish-form textarea {
+    min-height: 150px;
+    padding: 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+    resize: vertical;
+}
+
+.wish-btn {
+    padding: 15px;
+    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.wish-btn:hover {
+    background: linear-gradient(45deg, #ff4757, #ff6b81);
+    transform: translateY(-3px);
+}
+
+.wish-result {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.wish-balloon {
+    background: #fff9c4;
+    padding: 30px;
+    border-radius: 15px;
+    position: relative;
+    display: inline-block;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.wish-text {
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.wish-star {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    animation: spin 2s infinite linear;
+}
+
+/* Floating Hearts */
+.floating-hearts {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-hearts::before {
+    content: "❤️";
+    position: absolute;
+    font-size: 20px;
+    opacity: 0;
+    animation: float-heart 10s linear infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes float-heart {
+    0% {
+        transform: translateY(100vh) translateX(10vw);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-20vh) translateX(30vw);
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    from { transform: translateX(-50%) rotate(0deg); }
+    to { transform: translateX(-50%) rotate(360deg); }
+}
+
+/* Utility Classes */
+.hidden {
+    display: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    .name {
+        font-size: 3rem;
+    }
+    
+    .navigation {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .nav-btn, .back-btn {
+        width: 80%;
+        text-align: center;
+    }
+}
+/* Wish Form Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form-group input {
+    height: 45px;
+}
+
+.wish-instruction {
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f0fff0;
+    border-radius: 10px;
+    border-left: 5px solid #4CAF50;
+}
+
+.whatsapp-icon {
+    font-size: 3rem;
+    margin-top: 15px;
+    animation: pulse 1.5s infinite;
+}
+
+/* WhatsApp Button */
+.whatsapp-btn {
+    background-color: #25D366 !important;
+}
+
+.whatsapp-btn:hover {
+    background-color: #128C7E !important;
+}
