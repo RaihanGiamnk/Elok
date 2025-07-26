@@ -160,3 +160,129 @@ if (whatsappForm) {
         alert('Pesan Anda akan dibuka di WhatsApp. Pastikan nomor Elok sudah benar!');
     });
 }
+// Variabel global untuk audio context
+let audioContext;
+let currentTime = 0;
+let isPlaying = false;
+let scheduledNotes = [];
+
+// Fungsi memainkan lagu ulang tahun
+function playBirthdaySong() {
+    if (isPlaying) return;
+    
+    // Inisialisasi AudioContext jika belum ada
+    if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    
+    // Notasi lagu "Happy Birthday"
+    const melody = [
+        {note: 'G4', duration: 0.3}, {note: 'G4', duration: 0.3}, 
+        {note: 'A4', duration: 0.5}, {note: 'G4', duration: 0.5}, 
+        {note: 'C5', duration: 0.5}, {note: 'B4', duration: 0.8},
+        
+        {note: 'G4', duration: 0.3}, {note: 'G4', duration: 0.3}, 
+        {note: 'A4', duration: 0.5}, {note: 'G4', duration: 0.5}, 
+        {note: 'D5', duration: 0.5}, {note: 'C5', duration: 0.8},
+        
+        {note: 'G4', duration: 0.3}, {note: 'G4', duration: 0.3}, 
+        {note: 'G5', duration: 0.5}, {note: 'E5', duration: 0.5}, 
+        {note: 'C5', duration: 0.5}, {note: 'B4', duration: 0.5}, {note: 'A4', duration: 0.8},
+        
+        {note: 'F5', duration: 0.3}, {note: 'F5', duration: 0.3}, 
+        {note: 'E5', duration: 0.5}, {note: 'C5', duration: 0.5}, 
+        {note: 'D5', duration: 0.5}, {note: 'C5', duration: 1.0}
+    ];
+    
+    const notes = {
+        'G4': 392.00,
+        'A4': 440.00,
+        'B4': 493.88,
+        'C5': 523.25,
+        'D5': 587.33,
+        'E5': 659.25,
+        'F5': 698.46,
+        'G5': 783.99
+    };
+
+    // Mulai dari currentTime terakhir
+    let time = audioContext.currentTime;
+    if (currentTime > 0) {
+        time = currentTime;
+    }
+
+    // Bersihkan jadwal sebelumnya
+    scheduledNotes.forEach(note => {
+        try {
+            note.stop();
+        } catch(e) {}
+    });
+    scheduledNotes = [];
+    
+    isPlaying = true;
+
+    // Jadwalkan semua nada
+    melody.forEach((tone, index) => {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.type = 'triangle';
+        oscillator.frequency.value = notes[tone.note];
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        gainNode.gain.setValueAtTime(0, time);
+        gainNode.gain.linearRampToValueAtTime(0.3, time + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, time + tone.duration * 0.9);
+        
+        oscillator.start(time);
+        oscillator.stop(time + tone.duration);
+        
+        scheduledNotes.push(oscillator);
+        
+        // Simpan waktu terakhir untuk dilanjutkan di halaman lain
+        currentTime = time + tone.duration;
+        
+        // Jika ini nada terakhir, set loop
+        if (index === melody.length - 1) {
+            setTimeout(() => {
+                if (isPlaying) {
+                    playBirthdaySong();
+                }
+            }, tone.duration * 1000);
+        }
+        
+        time += tone.duration;
+    });
+}
+
+// Fungsi menghentikan musik
+function stopMusic() {
+    isPlaying = false;
+    currentTime = 0;
+    
+    scheduledNotes.forEach(note => {
+        try {
+            note.stop();
+        } catch(e) {}
+    });
+    scheduledNotes = [];
+}
+
+// Simpan waktu musik saat berpindah halaman
+window.addEventListener('beforeunload', function() {
+    if (isPlaying) {
+        localStorage.setItem('musicCurrentTime', currentTime);
+    } else {
+        localStorage.removeItem('musicCurrentTime');
+    }
+});
+
+// Cek status musik saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('musicEnabled') !== 'false') {
+        const savedTime = parseFloat(localStorage.getItem('musicCurrentTime')) || 0;
+        currentTime = savedTime % 12.8; // Total durasi lagu adalah 12.8 detik
+        playBirthdaySong();
+    }
+});
