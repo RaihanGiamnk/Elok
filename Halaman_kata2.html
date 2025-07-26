@@ -48,6 +48,33 @@
             margin-bottom: 25px;
         }
         
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 5px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-music {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        
+        .btn-home {
+            background-color: #4A6CF7;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -77,6 +104,11 @@
         <h1>Ayo balik lagi ke aku</h1>
         <div class="heart">❤️</div>
         <p class="message">Aku masih di sini menunggu...</p>
+        
+        <div class="btn-container">
+            <button class="btn btn-music" id="musicBtn">🎵 Putar Musik Ulang Tahun</button>
+            <a href="index.html" class="btn btn-home">🏠 Kembali ke Menu Utama</a>
+        </div>
     </div>
 
     <script>
@@ -111,7 +143,63 @@
         `;
         document.head.appendChild(style);
         
-        document.addEventListener('DOMContentLoaded', createHearts);
+        // Play birthday song
+        function playBirthdaySong() {
+            const notes = [
+                392, 392, 440, 392, 523, 494,
+                392, 392, 440, 392, 587, 523,
+                392, 392, 784, 659, 523, 494, 440,
+                698, 698, 659, 523, 587, 523
+            ];
+            
+            const durations = [
+                0.2, 0.2, 0.4, 0.4, 0.4, 0.8,
+                0.2, 0.2, 0.4, 0.4, 0.4, 0.8,
+                0.2, 0.2, 0.4, 0.4, 0.4, 0.4, 0.8,
+                0.2, 0.2, 0.4, 0.4, 0.4, 0.8
+            ];
+            
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let time = audioCtx.currentTime;
+                
+                notes.forEach((note, i) => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    
+                    oscillator.type = 'triangle';
+                    oscillator.frequency.value = note;
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    
+                    gainNode.gain.setValueAtTime(0, time);
+                    gainNode.gain.linearRampToValueAtTime(0.3, time + 0.01);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, time + durations[i] * 0.9);
+                    
+                    oscillator.start(time);
+                    oscillator.stop(time + durations[i]);
+                    
+                    time += durations[i];
+                });
+            } catch (e) {
+                console.log('Audio error:', e);
+                alert('Browser tidak mendukung fitur audio');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            createHearts();
+            
+            // Music button event
+            const musicBtn = document.getElementById('musicBtn');
+            musicBtn.addEventListener('click', function() {
+                playBirthdaySong();
+                this.textContent = '🎶 Sedang Memutar...';
+                setTimeout(() => {
+                    this.textContent = '🎵 Putar Musik Ulang Tahun';
+                }, 3000);
+            });
+        });
     </script>
 </body>
 </html>
