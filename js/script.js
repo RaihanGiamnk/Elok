@@ -160,3 +160,66 @@ if (whatsappForm) {
         alert('Pesan Anda akan dibuka di WhatsApp. Pastikan nomor Elok sudah benar!');
     });
 }
+// Drag and drop untuk galeri foto
+function initGalleryDrag() {
+  const gallery = document.querySelector('.photo-grid');
+  if (!gallery) return;
+
+  let draggedItem = null;
+
+  gallery.querySelectorAll('.photo-item').forEach(item => {
+    item.draggable = true;
+    
+    item.addEventListener('dragstart', function() {
+      draggedItem = this;
+      setTimeout(() => this.style.opacity = '0.4', 0);
+    });
+    
+    item.addEventListener('dragend', function() {
+      setTimeout(() => this.style.opacity = '1', 0);
+    });
+    
+    item.addEventListener('dragover', function(e) {
+      e.preventDefault();
+    });
+    
+    item.addEventListener('dragenter', function(e) {
+      e.preventDefault();
+      this.style.border = '2px dashed #ff4757';
+    });
+    
+    item.addEventListener('dragleave', function() {
+      this.style.border = 'none';
+    });
+    
+    item.addEventListener('drop', function() {
+      this.style.border = 'none';
+      if (draggedItem !== this) {
+        gallery.insertBefore(draggedItem, this);
+      }
+    });
+  });
+}
+
+// Tambahkan di DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+  initGalleryDrag();
+  
+  // Animasi elemen saat scroll
+  const animateOnScroll = function() {
+    const elements = document.querySelectorAll('.timeline-item, .message-card, .photo-item');
+    
+    elements.forEach(element => {
+      const elementPosition = element.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+      
+      if (elementPosition < windowHeight - 100) {
+        element.style.opacity = '1';
+        element.style.transform = 'translateY(0)';
+      }
+    });
+  };
+  
+  window.addEventListener('scroll', animateOnScroll);
+  animateOnScroll(); // Jalankan sekali saat load
+});
