@@ -380,3 +380,22 @@ function createBubbles() {
 
 // Panggil fungsi bubble
 createBubbles();
+// Loading screen
+document.addEventListener('DOMContentLoaded', function() {
+  const loadingScreen = document.createElement('div');
+  loadingScreen.className = 'loading-screen';
+  loadingScreen.innerHTML = `
+    <div class="loading-text">Memuat Kejutan untuk Elok...</div>
+    <div class="loading-bar"><div class="loading-progress"></div></div>
+  `;
+  document.body.prepend(loadingScreen);
+  
+  setTimeout(() => {
+    loadingScreen.style.opacity = '0';
+    setTimeout(() => {
+      loadingScreen.remove();
+    }, 1000);
+  }, 3000);
+  
+  // ... kode lainnya ...
+});
