@@ -255,3 +255,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+// Simpan status musik saat berpindah halaman
+window.addEventListener('beforeunload', function() {
+    if (bgMusic) {
+        localStorage.setItem('musicPlaying', !bgMusic.paused);
+        localStorage.setItem('musicTime', bgMusic.currentTime);
+    }
+});
+
+// Periksa status musik saat halaman dimuat
+document.addEventListener('DOMContentLoaded', function() {
+    if (bgMusic) {
+        const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+        const savedTime = localStorage.getItem('musicTime');
+        
+        if (wasPlaying) {
+            bgMusic.currentTime = savedTime || 0;
+            const playPromise = bgMusic.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    musicToggle.textContent = '🔇 Musik (Klik untuk memutar)';
+                });
+            } else {
+                musicToggle.textContent = '🔊 Musik';
+            }
+        }
+    }
+});
