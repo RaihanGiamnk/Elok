@@ -223,3 +223,35 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('scroll', animateOnScroll);
   animateOnScroll(); // Jalankan sekali saat load
 });
+// Musik otomatis
+document.addEventListener('DOMContentLoaded', function() {
+    // ... kode yang sudah ada ...
+    
+    // Musik latar belakang
+    const bgMusic = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    
+    if (bgMusic && musicToggle) {
+        // Coba putar musik otomatis (dengan penanganan kebijakan autoplay browser)
+        const playPromise = bgMusic.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                // Autoplay dicegah, tampilkan tombol play
+                musicToggle.textContent = '🔇 Musik (Klik untuk memutar)';
+                musicToggle.style.display = 'block';
+            });
+        }
+        
+        // Tombol toggle musik
+        musicToggle.addEventListener('click', function() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                this.textContent = '🔊 Musik';
+            } else {
+                bgMusic.pause();
+                this.textContent = '🔇 Musik';
+            }
+        });
+    }
+});
