@@ -283,3 +283,100 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+// Tambahkan di DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+  // ... kode yang ada ...
+  
+  // Efek ketik untuk greeting
+  const greeting = document.querySelector('.greeting');
+  if (greeting) {
+    const text = greeting.textContent;
+    greeting.textContent = '';
+    
+    let i = 0;
+    const typingEffect = setInterval(() => {
+      if (i < text.length) {
+        greeting.textContent += text.charAt(i);
+        i++;
+      } else {
+        clearInterval(typingEffect);
+      }
+    }, 100);
+  }
+  
+  // Animasi hover untuk tombol
+  const buttons = document.querySelectorAll('.nav-btn, .back-btn, .btn-home');
+  buttons.forEach(button => {
+    button.addEventListener('mouseenter', () => {
+      button.style.transform = 'scale(1.1) rotate(5deg)';
+    });
+    button.addEventListener('mouseleave', () => {
+      button.style.transform = 'scale(1) rotate(0)';
+    });
+  });
+  
+  // Efek hover untuk kartu pesan
+  const messageCards = document.querySelectorAll('.message-card');
+  messageCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'translateY(-5px)';
+      card.style.boxShadow = '0 10px 25px rgba(255, 107, 107, 0.3)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'translateY(0)';
+      card.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
+    });
+  });
+  
+  // Efek klik untuk semua tombol
+  document.querySelectorAll('button, a[href]').forEach(btn => {
+    btn.addEventListener('click', function() {
+      createConfetti(20);
+    });
+  });
+});
+
+// Fungsi untuk efek bubble
+function createBubbles() {
+  const container = document.querySelector('.floating-hearts') || document.body;
+  const colors = ['#ff6b6b', '#ff8e8e', '#ff4757', '#ffa502', '#ff6348'];
+  
+  for (let i = 0; i < 10; i++) {
+    const bubble = document.createElement('div');
+    bubble.style.position = 'fixed';
+    bubble.style.width = (Math.random() * 40 + 20) + 'px';
+    bubble.style.height = bubble.style.width;
+    bubble.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    bubble.style.left = Math.random() * 100 + 'vw';
+    bubble.style.top = '100vh';
+    bubble.style.borderRadius = '50%';
+    bubble.style.opacity = '0.6';
+    bubble.style.zIndex = '0';
+    bubble.style.animation = `float-up ${Math.random() * 10 + 5}s linear infinite`;
+    bubble.style.animationDelay = Math.random() * 5 + 's';
+    
+    container.appendChild(bubble);
+  }
+  
+  // Tambahkan style untuk animasi bubble
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes float-up {
+      0% {
+        transform: translateY(0) scale(0.5);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.6;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Panggil fungsi bubble
+createBubbles();
